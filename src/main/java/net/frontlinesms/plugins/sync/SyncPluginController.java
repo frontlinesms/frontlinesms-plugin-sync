@@ -17,7 +17,7 @@ import net.frontlinesms.ui.UiGeneratorController;
 
 import org.springframework.context.ApplicationContext;
 
-@PluginControllerProperties(name = "Sync Plugin",
+@PluginControllerProperties(name = "Sync (beta)",
 		iconPath = "/icons/sync_small.png",
 		springConfigLocation=PluginControllerProperties.NO_VALUE,
 		hibernateConfigPath=PluginControllerProperties.NO_VALUE,
