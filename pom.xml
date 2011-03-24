@@ -2,13 +2,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.frontlinesms.plugins</groupId>
 	<artifactId>frontlinesms-plugin-sync</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>Sync Plugin</name>
 	<description>Plugin for syncing all incoming SMS messages with an external service over HTTP</description>
 	<parent>
 		<groupId>net.frontlinesms.core</groupId>
 		<artifactId>frontlinesms-pom-parent</artifactId>
-		<version>1.7.00-beta-5</version>
+		<version>1.7.00-beta-5-SNAPSHOT</version>
 		<relativePath>../pom-parent</relativePath>
 	</parent>
   
