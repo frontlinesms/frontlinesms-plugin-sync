@@ -60,6 +60,8 @@ public class SyncSettingsPanelHandler extends BaseSectionHandler implements Thin
 		this.initParamsTable(syncProperties.getParamsMap());
 		setStartupModeCheckboxStatus(syncProperties.isAutomaticStartup());
 	}
+	
+	public void deinit() {}
 
 	private void setStartupModeCheckboxStatus(boolean status) {
 		ui.setSelected(find(COMPONENT_CHK_STARTUP_MODE), status);
