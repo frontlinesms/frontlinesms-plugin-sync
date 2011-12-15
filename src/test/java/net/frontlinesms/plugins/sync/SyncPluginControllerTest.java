@@ -89,7 +89,7 @@ public class SyncPluginControllerTest extends BaseTestCase {
 		
 		{
 			// When a EntitySavedNotification is fired for an irrelevant data type
-			EntitySavedNotification n = mock(EntitySavedNotification.class);
+			EntitySavedNotification<Contact> n = mock(EntitySavedNotification.class);
 			Contact contact = mock(Contact.class);
 			when(n.getDatabaseEntity()).thenReturn(contact);
 			controller.notify(n);
@@ -100,7 +100,7 @@ public class SyncPluginControllerTest extends BaseTestCase {
 		
 		{
 			// When a EntitySavedNotification is fired for a outoging message
-			EntitySavedNotification n = mock(EntitySavedNotification.class);
+			EntitySavedNotification<FrontlineMessage> n = mock(EntitySavedNotification.class);
 			when(n.getDatabaseEntity()).thenReturn(SyncTestUtils.createOutgoingMessage());
 			controller.notify(n);
 			
@@ -110,7 +110,7 @@ public class SyncPluginControllerTest extends BaseTestCase {
 		
 		{
 			// When a EntitySavedNotification is fired for an incoing message
-			EntitySavedNotification n = mock(EntitySavedNotification.class);
+			EntitySavedNotification<FrontlineMessage> n = mock(EntitySavedNotification.class);
 			FrontlineMessage message = SyncTestUtils.createIncomingMessage();
 			when(n.getDatabaseEntity()).thenReturn(message);
 			controller.notify(n);

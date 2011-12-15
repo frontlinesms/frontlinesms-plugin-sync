@@ -54,7 +54,7 @@ public class SyncSettingsPanelHandler extends BaseSectionHandler implements Thin
 	
 	@Override
 	protected void init() {
-		this.panel = uiController.loadComponentFromFile(XML_LAYOUT_FILE, this);
+		this.panel = ui.loadComponentFromFile(XML_LAYOUT_FILE, this);
 		
 		this.setUrlTextfield(syncProperties.getSynchronisationURL());
 		this.initParamsTable(syncProperties.getParamsMap());
@@ -62,7 +62,7 @@ public class SyncSettingsPanelHandler extends BaseSectionHandler implements Thin
 	}
 
 	private void setStartupModeCheckboxStatus(boolean status) {
-		uiController.setSelected(find(COMPONENT_CHK_STARTUP_MODE), status);
+		ui.setSelected(find(COMPONENT_CHK_STARTUP_MODE), status);
 	}
 
 	/** Saves the synchronisation settings */
@@ -81,15 +81,15 @@ public class SyncSettingsPanelHandler extends BaseSectionHandler implements Thin
 	private void initParamsTable(Map<String, String> paramsMap) {
 		Object table = find(COMPONENT_TB_PARAMS);
 		for(Entry<String, String> e : paramsMap.entrySet()) {
-			uiController.add(table, getParamRow(e.getKey(), e.getValue()));
+			ui.add(table, getParamRow(e.getKey(), e.getValue()));
 		}
 	}
 	
 	/** Gets UI table row from the parameters table */
 	private Object getParamRow(String key, String value) {
-		Object row = uiController.createTableRow();
-		uiController.add(row, uiController.createTableCell(key));
-		uiController.add(row, uiController.createTableCell(value));
+		Object row = ui.createTableRow();
+		ui.add(row, ui.createTableCell(key));
+		ui.add(row, ui.createTableCell(value));
 		return row;
 	}
 
@@ -97,9 +97,9 @@ public class SyncSettingsPanelHandler extends BaseSectionHandler implements Thin
 	private Map<String, String> getParamsMap() {
 		Map<String, String> params = new HashMap<String, String>();
 		Object paramsTable = find(COMPONENT_TB_PARAMS);
-		for(Object row: uiController.getItems(paramsTable)) {
-			String key = uiController.getText(uiController.getItem(row, 0));
-			String value = uiController.getText(uiController.getItem(row, 1));
+		for(Object row: ui.getItems(paramsTable)) {
+			String key = ui.getText(ui.getItem(row, 0));
+			String value = ui.getText(ui.getItem(row, 1));
 			params.put(key, value);
 		}
 		return params ;
@@ -107,13 +107,13 @@ public class SyncSettingsPanelHandler extends BaseSectionHandler implements Thin
 
 	/** Gets the text in the synchronisation URL text field */
 	private String getUrl() {
-		return uiController.getText(find(COMPONENT_TF_URL));
+		return ui.getText(find(COMPONENT_TF_URL));
 	}
 
 	/** Sets the text for the synchronsation URL text field*/
 	//TODO Validate the URL
 	private void setUrlTextfield(String synchronisationURL) {
-		uiController.setText(find(COMPONENT_TF_URL), synchronisationURL);
+		ui.setText(find(COMPONENT_TF_URL), synchronisationURL);
 	}
 
 	public List<FrontlineValidationMessage> validateFields() {
@@ -134,45 +134,45 @@ public class SyncSettingsPanelHandler extends BaseSectionHandler implements Thin
 	
 	/** Displays the parameter definition dialog */
 	public void addParam() {
-		uiController.add(getNewParamDialog());
+		ui.add(getNewParamDialog());
 		hasChanged(COMPONENT_TB_PARAMS);
 	}
 	
 	/** Adds the key,value pair contained in @param row */
 	public void addParam(Object row) {
-		uiController.add(find(COMPONENT_TB_PARAMS), row);
+		ui.add(find(COMPONENT_TB_PARAMS), row);
 	}
 	
 	/** Adds a key-value pair to the parameters table */
 	public void addParam(String key, String value) {
-		uiController.add(find(COMPONENT_TB_PARAMS), getParamRow(key, value));
+		ui.add(find(COMPONENT_TB_PARAMS), getParamRow(key, value));
 		
 		// Remove any object currently attached to the dialog
-		uiController.setAttachedObject(paramDialog, null);
+		ui.setAttachedObject(paramDialog, null);
 		
 		removeDialog();
 	}
 	
 	/** Loads the parameter defintion dialog and returns a reference to the same */
 	private Object getNewParamDialog() {
-		paramDialog = uiController.loadComponentFromFile(XML_LAYOUT_FILE_PARAM_NEW, this);
+		paramDialog = ui.loadComponentFromFile(XML_LAYOUT_FILE_PARAM_NEW, this);
 		return paramDialog;
 	}
 
 	/** Deletes a parameter item from the parameters list */
 	public void removeParam() {
-		uiController.remove(uiController.getSelectedItem(find(COMPONENT_TB_PARAMS)));
+		ui.remove(ui.getSelectedItem(find(COMPONENT_TB_PARAMS)));
 	}
 	
 	/** Removes the dialog from the UI */
 	public void removeDialog() {
-		Object row = uiController.getAttachedObject(paramDialog);
+		Object row = ui.getAttachedObject(paramDialog);
 		
 		if (row != null) {
 			addParam(row);
 		}
 		
-		uiController.remove(paramDialog);
+		ui.remove(paramDialog);
 		paramDialog = null;
 		hasChanged(COMPONENT_TB_PARAMS);
 	}
@@ -180,12 +180,12 @@ public class SyncSettingsPanelHandler extends BaseSectionHandler implements Thin
 	public void hasChanged(String componentName) {
 		// TODO check for unchanges
 		SettingsChangedEventNotification notification = new SettingsChangedEventNotification("plugin.sync." + componentName, false);
-		this.uiController.getFrontlineController().getEventBus().notifyObservers(notification);
+		this.ui.getFrontlineController().getEventBus().notifyObservers(notification);
 	}
 	
 	/** Sets start up mode of the SMS Sync plugin */
 	public void setStartupMode(Object button) {
-		boolean mode = uiController.isSelected(button);
+		boolean mode = ui.isSelected(button);
 		syncProperties.setStartupMode(mode);
 		
 		// Fire the change listener
@@ -224,32 +224,32 @@ public class SyncSettingsPanelHandler extends BaseSectionHandler implements Thin
 	
 	/** Updates the value of the parameter text field */
 	private void updateParamValueTextField(Object textField, String markerMessageContent) {
-		String value = uiController.getText(textField);
-		uiController.setText(textField, value + markerMessageContent);
+		String value = ui.getText(textField);
+		ui.setText(textField, value + markerMessageContent);
 		
-		uiController.repaint(this.panel);
+		ui.repaint(this.panel);
 	}
 	
 	/** Shows the edit dialog for the parameter item in @param row */
 	public void showParameterItem(Object table) {
-		Object row = uiController.getSelectedItem(table);
+		Object row = ui.getSelectedItem(table);
 		
-		String key = uiController.getText(uiController.getItem(row, 0));
-		String value = uiController.getText(uiController.getItem(row, 1));
+		String key = ui.getText(ui.getItem(row, 0));
+		String value = ui.getText(ui.getItem(row, 1));
 		
 		// Generate the dialog
 		getNewParamDialog();
 		
 		// Set the text fields for the dialog
-		uiController.setText(uiController.find(paramDialog, COMPONENT_TF_PARAM_KEY), key);
-		uiController.setText(uiController.find(paramDialog, COMPONENT_TF_PARAM_VALUE), value);
+		ui.setText(ui.find(paramDialog, COMPONENT_TF_PARAM_KEY), key);
+		ui.setText(ui.find(paramDialog, COMPONENT_TF_PARAM_VALUE), value);
 		
 		// Attach the row object to the dialog & remove it from the table to prevent duplicate entries
-		uiController.setAttachedObject(paramDialog, row);
-		uiController.remove(row);		
+		ui.setAttachedObject(paramDialog, row);
+		ui.remove(row);		
 		
 		// Show the dialog
-		uiController.add(paramDialog);
+		ui.add(paramDialog);
 		
 	}
 }
